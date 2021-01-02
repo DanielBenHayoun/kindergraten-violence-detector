@@ -1,0 +1,1 @@
+Training accuracy after 1 epoch = 81.81818389892578

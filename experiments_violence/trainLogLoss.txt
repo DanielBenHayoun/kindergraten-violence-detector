@@ -1,0 +1,1 @@
+Training loss after 1 epoch = 0.2623896896839142
