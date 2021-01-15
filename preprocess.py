@@ -5,9 +5,10 @@ import shutil
 
 
 class preprocessDataset():
-    def __init__(self, train_path, val_path, DEBUG=True):
+    def __init__(self, train_path, val_path, delete_After=True,DEBUG=True):
         self.val_path = val_path
         self.train_path = train_path
+        self.delete_after=delete_After
         if not DEBUG:
             self.relative = 1
         else:
@@ -57,9 +58,9 @@ class preprocessDataset():
         # Release all space and windows once done
         cam.release()
         cv2.destroyAllWindows()
-        if currentframe!= 0:
+        if currentframe!= 0 and self.delete_after:
           print("removing video " + full_video_path )
-          # os.remove(full_video_path)
+          os.remove(full_video_path)
 
     def create_all_images(self):
         for f1 in [self.train_path, self.val_path]:
@@ -97,7 +98,7 @@ p = preprocessDataset(
 #
 p.create_images_from_video(
     "C:\\Users\\Danielbh\\Desktop\\5th\proj\RWF-2000\\train\\Fight\\_2RYnSFPD_U_0.avi")
-#
+# #
 # p.create_all_images()
 
 # if __name__=='__main__':
