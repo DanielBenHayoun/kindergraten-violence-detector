@@ -22,18 +22,27 @@ class preprocessDataset():
                 final_list = list_dirs[
                              :int(round(self.relative * len(list_dirs)))]
                 for video in final_list:
-                    os.mkdir(path1 + "\\" + video[:-4])
+                    os.mkdir(path1 + "/" + video[:-4])
 
     def create_images_from_video(self, full_video_path):
+        print("extracting frames from "+ full_video_path)
         cam = cv2.VideoCapture(full_video_path)
         # frame
         currentframe = 0
+        i=0
         while (True):
             # reading from frame
+
             ret, frame = cam.read()
+
             if ret:
+                # taking only 75% if frames
+                if i % 4 == 1:
+                    print("skipping frame " + str(i))
+                    i += 1
+                    continue
                 # if video is still left continue creating images
-                name = f'{full_video_path[:-4]}\\frame' + str(
+                name = f'{full_video_path[:-4]}/frame' + str(
                     int(round(currentframe))).zfill(3) + '.jpg'
                 print('Creating...' + name)
                 # writing the extracted images
@@ -41,11 +50,16 @@ class preprocessDataset():
                 # increasing counter so that it will
                 # show how many frames are created
                 currentframe += 1
+                i+=1
+
             else:
                 break
         # Release all space and windows once done
         cam.release()
         cv2.destroyAllWindows()
+        if currentframe!= 0:
+          print("removing video " + full_video_path )
+          # os.remove(full_video_path)
 
     def create_all_images(self):
         for f1 in [self.train_path, self.val_path]:
@@ -73,6 +87,7 @@ class preprocessDataset():
         self.create_folders()
         self.create_all_images()
 
+print("DSF")
 p = preprocessDataset(
     "C:\\Users\\Danielbh\\Desktop\\5th\proj\RWF-2000\\val",
     "C:\\Users\\Danielbh\\Desktop\\5th\proj\RWF-2000\\train")
@@ -80,8 +95,11 @@ p = preprocessDataset(
 # p.clean_folders()
 # p.create_folders()
 #
-# # p.create_images_from_video(
-# #     "C:\\Users\\Danielbh\\Desktop\\5th\proj\RWF-2000\\val\\NonFight\\Fwhi4UNI_0.avi")
+p.create_images_from_video(
+    "C:\\Users\\Danielbh\\Desktop\\5th\proj\RWF-2000\\train\\Fight\\_2RYnSFPD_U_0.avi")
 #
 # p.create_all_images()
+
+# if __name__=='__main__':
+
 
