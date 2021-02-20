@@ -43,8 +43,10 @@ class preprocessDataset():
                     i += 1
                     continue
                 # if video is still left continue creating images
-                name = f'{full_video_path[:-4]}/frame' + str(
-                    int(round(currentframe))).zfill(3) + '.jpg'
+                # name = f'{full_video_path[:-4]}/frame' + str(
+                #     int(round(currentframe))).zfill(3) + '.jpg'
+                name = os.path.join(full_video_path[:-4],'frame'+str(
+                    int(round(currentframe))).zfill(3) + '.jpg')
                 print('Creating...' + name)
                 # writing the extracted images
                 cv2.imwrite(name, frame)
@@ -88,19 +90,22 @@ class preprocessDataset():
         self.create_folders()
         self.create_all_images()
 
-print("DSF")
-p = preprocessDataset(
-    "C:\\Users\\Danielbh\\Desktop\\5th\proj\RWF-2000\\val",
-    "C:\\Users\\Danielbh\\Desktop\\5th\proj\RWF-2000\\train")
+# print("DSF")
+# p = preprocessDataset(
+#     "C:\\Users\\Danielbh\\Desktop\\5th\proj\RWF-2000\\val",
+#     "C:\\Users\\Danielbh\\Desktop\\5th\proj\RWF-2000\\train")
 
 # p.clean_folders()
 # p.create_folders()
 #
-p.create_images_from_video(
-    "C:\\Users\\Danielbh\\Desktop\\5th\proj\RWF-2000\\train\\Fight\\_2RYnSFPD_U_0.avi")
-# #
+# p.create_images_from_video(
+#     "C:\\Users\\Danielbh\\Desktop\\5th\proj\RWF-2000\\train\\Fight\\_2RYnSFPD_U_0.avi")
+# # #
 # p.create_all_images()
 
-# if __name__=='__main__':
-
+if __name__=='__main__':
+    p = preprocessDataset(
+        "C:\\Users\\Danielbh\\Desktop\\5th\proj\RWF-2000\\val",
+        "C:\\Users\\Danielbh\\Desktop\\5th\proj\RWF-2000\\train",DEBUG=False)
+    p.preprocess()
 
