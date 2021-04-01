@@ -11,8 +11,9 @@ class ConvLSTMCell(nn.Module):
         self.hidden_size = hidden_size
         self.Gates = nn.Conv2d(input_size + hidden_size, 4 * hidden_size, kernel_size=kernel_size,
                                stride=stride, padding=padding)
-        torch.nn.init.xavier_normal(self.Gates.weight)
-        torch.nn.init.constant(self.Gates.bias, 0)
+        nn.init.xavier_normal_(self.Gates.weight)
+	#torch.nn.init.xavier_normal(self.Gates.weight)
+        nn.init.constant_(self.Gates.bias, 0)
 
     def forward(self, input_, prev_state):
         batch_size = input_.data.size()[0]

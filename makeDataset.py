@@ -24,7 +24,7 @@ class makeDataset(Dataset):
         inpSeq = []
         self.spatial_transform.randomize_parameters()
         for i in np.linspace(0, numFrames-1, self.seqLen):
-            fl_name = vid_name + '\\' + 'frame' + str(int(round(i))).zfill(3) + '.jpg'
+            fl_name = os.path.join(vid_name,'frame' + str(int(round(i))).zfill(3) + '.jpg')
             img = Image.open(fl_name)
             inpSeq.append(self.spatial_transform(img.convert('RGB')))
         inpSeq = torch.stack(inpSeq, 0)

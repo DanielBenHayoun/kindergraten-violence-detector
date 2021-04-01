@@ -26,7 +26,7 @@ def make_split(fights_dir, noFights_dir):
         d = os.path.join(noFights_dir, target)
         if not os.path.isdir(d):
             continue
-        d1 = os.path.join(d, target + "001.avi")
+        d1 = os.path.join(d, "frame001.jpg")
         if not os.path.isfile(d1):
             continue
         imagesNoF.append(d)
@@ -60,8 +60,7 @@ def main_run(numEpochs, lr, stepSize, decayRate, trainBatchSize, seqLen, memSize
     # trainLoader = torch.utils.data.DataLoader(vidSeqTrain, batch_size=trainBatchSize,
     #                         shuffle=True, num_workers=numWorkers, pin_memory=True, drop_last=True)
     trainLoader = torch.utils.data.DataLoader(vidSeqTrain,
-                                              # batch_size=trainBatchSize,
-                                              batch_size=2,
+                                              batch_size=trainBatchSize,
                                               shuffle=True,
                                               pin_memory=True,
                                               drop_last=True)
@@ -128,7 +127,8 @@ def main_run(numEpochs, lr, stepSize, decayRate, trainBatchSize, seqLen, memSize
     minAccuracy = 50
 
     for epoch in range(numEpochs):
-        optimScheduler.step()
+        if epoch != 0 :
+            optimScheduler.step()
         epochLoss = 0
         numCorrTrain = 0
         iterPerEpoch = 0
@@ -141,17 +141,30 @@ def main_run(numEpochs, lr, stepSize, decayRate, trainBatchSize, seqLen, memSize
             # inputVariable1 = Variable(inputs.permute(1, 0, 2, 3, 4).cuda())
             inputVariable1 = Variable(inputs.permute(1, 0, 2, 3, 4))
             # labelVariable = Variable(targets.cuda())
+            print(inputVariable1.shape)
             labelVariable = Variable(targets)
+            # print("labelVariable")
+            # print(labelVariable)
+            # print("targets")
+            # print(targets)
             outputLabel = model(inputVariable1)
+            # print("outputs")
+            # print(outputLabel)
             loss = lossFn(outputLabel, labelVariable)
+
             loss.backward()
             optimizerFn.step()
             outputProb = torch.nn.Softmax(dim=1)(outputLabel)
+            # print("outputProb.data going into torch.max ")
+            # print(outputProb.data)
             _, predicted = torch.max(outputProb.data, 1)
             # numCorrTrain += (predicted == targets.cuda()).sum()
+            # print("predicted")
+            # print(predicted)
             numCorrTrain += (predicted == targets).sum()
             # epochLoss += loss.data[0]
-            epochLoss += loss.data
+            # print(numCorrTrain)
+            epochLoss += loss.data.item()
         avgLoss = epochLoss/iterPerEpoch
         trainAccuracy = (numCorrTrain / numTrainInstances) * 100
         print('Training: Loss = {} | Accuracy = {}% '.format(avgLoss, trainAccuracy))
@@ -175,11 +188,11 @@ def main_run(numEpochs, lr, stepSize, decayRate, trainBatchSize, seqLen, memSize
                     # inputVariable1 = Variable(inputs[0].cuda(), volatile=True)
                     inputVariable1 = Variable(inputs[0], volatile=True)
                 # labelVariable = Variable(targets.cuda(async =True), volatile=True)
-                labelVariable = None
+                labelVariable = Variable(targets)
                 outputLabel = model(inputVariable1)
                 outputLabel_mean = torch.mean(outputLabel, 0, True)
                 testLoss = lossFn(outputLabel_mean, labelVariable)
-                testLossEpoch += testLoss.data[0]
+                testLossEpoch += testLoss.data.item()
                 _, predicted = torch.max(outputLabel_mean.data, 1)
                 numCorrTest += (predicted == targets[0]).sum()
             testAccuracy = (numCorrTest / numTestInstances) * 100
