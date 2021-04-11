@@ -227,7 +227,7 @@ def __main__():
     parser.add_argument('--evalInterval', type=int, default=5, help='Evaluation interval')
     parser.add_argument('--evalMode', type=str, default='horFlip', help='Evaluation mode', choices=['centerCrop', 'horFlip', 'fiveCrops', 'tenCrops'])
     parser.add_argument('--numWorkers', type=int, default=4, help='Number of workers for dataloader')
-    parser.add_argument('--outDir', type=str, default='violence', help='Output directory')
+    parser.add_argument('--outDir', type=str, default='finetune', help='Output directory')
     parser.add_argument('--fightsDirTrain', type=str, default='./datasets/violent_flow/frames/fights', help='Directory containing training fight sequences')
     parser.add_argument('--noFightsDirTrain', type=str, default='./datasets/violent_flow/frames/noFights', help='Directory containing training non-fight sequences')
     parser.add_argument('--fightsDirTest', type=str, default='./datasets/violent_flow/frames/fights', help='Directory containing testing fight sequences')
