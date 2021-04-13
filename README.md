@@ -1,6 +1,6 @@
 # kindergraten-violence-detector
 ## data 
-the data should be arrabged as follows:
+the data should be arranged as follows:
 
 
 ![alt text](/dataset_fmt.jpg?raw=true)
