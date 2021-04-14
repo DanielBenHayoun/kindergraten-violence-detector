@@ -1,2 +1,5 @@
 *.pyc
 *experiment*
+*.idea
+*__pycache__
+
