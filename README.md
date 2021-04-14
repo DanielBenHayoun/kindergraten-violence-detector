@@ -62,3 +62,6 @@ python main-run-vr.py --numEpochs 100 \
 --noFightsDirTest noFightSamplesTestDir
 ```
 replace fightSamplesTrainDir noFightSamplesTrainDir fightSamplesTestDir noFightSamplesTestDir with the right paths for your data.
+
+Refernece for the original model:
+[original model](https://github.com/swathikirans/violence-recognition-pytorch)
