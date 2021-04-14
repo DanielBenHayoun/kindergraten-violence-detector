@@ -28,6 +28,10 @@ replace `<dataset folder>` with the main directory of the dataset which need to 
 
 ## pose estimation .
 in order to run a training or detection , make sure to run pose estimation on the dataset. you can chose light-pose or you can chose pose-tensorflow make sure to edit the right paths in the script.
+
+[pose-tensorflow](https://github.com/eldar/pose-tensorflow)
+
+[lightweight-pose](https://github.com/Daniil-Osokin/lightweight-human-pose-estimation.pytorch)
  ```
 cd pose-tensorflow/
 python3 ProcessImgScript.py
